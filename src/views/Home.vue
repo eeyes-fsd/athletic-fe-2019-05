@@ -37,6 +37,7 @@
 
 <script>
 import api from '@/api'
+import swal from 'sweetalert'
 
 const units = [
   '全部',
@@ -78,7 +79,7 @@ export default {
       } else if (unitId === 0) {
         this.fetchGames(null)
       } else {
-        alert('页面错误，请刷新重试')
+        swal('页面错误，请刷新重试')
       }
     }
   }
