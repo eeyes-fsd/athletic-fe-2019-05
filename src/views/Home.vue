@@ -4,7 +4,7 @@
       <v-select
         :items="units"
         label="Standard"
-        @input="test"
+        @input="chooseUnit"
       />
     </v-flex>
 
@@ -65,14 +65,25 @@ export default {
       games: []
     }
   },
+  computed: {
+    unitId() {
+      const queryUnitId = this.$route.query.unitid
+      return queryUnitId ? parseInt(queryUnitId) : null
+    }
+  },
   mounted() {
-    this.fetchGames()
+    this.fetchGames(this.unitId)
   },
   methods: {
     async fetchGames(unitId = null) {
       this.games = await api.getGameIndex(unitId)
+      if (unitId === null) {
+        this.$router.push({ name: 'home' })
+      } else {
+        this.$router.push({ name: 'home', query: { unitid: unitId.toString() }})
+      }
     },
-    test(evt) {
+    chooseUnit(evt) {
       const unitId = units.indexOf(evt)
       if (unitId > 0) {
         this.fetchGames(unitId)
