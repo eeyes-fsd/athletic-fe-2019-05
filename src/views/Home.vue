@@ -19,7 +19,9 @@
           {{ props.item.id }}
         </td>
         <td class="text-xs-right">
-          <a href="/">{{ props.item.name }}</a>
+          <router-link :to="{ name: 'game', params: { id: props.item.id }}">
+            {{ props.item.name }}
+          </router-link>
         </td>
         <td class="text-xs-right column-begin-at">
           {{ props.item.begin_at }}
@@ -67,7 +69,7 @@ export default {
   },
   computed: {
     unitId() {
-      const queryUnitId = this.$route.query.unitid
+      const queryUnitId = this.$route.query.unit
       return queryUnitId ? parseInt(queryUnitId) : null
     }
   },
@@ -80,7 +82,7 @@ export default {
       if (unitId === null) {
         this.$router.push({ name: 'home' })
       } else {
-        this.$router.push({ name: 'home', query: { unitid: unitId.toString() }})
+        this.$router.push({ name: 'home', query: { unit: unitId.toString() }})
       }
     },
     chooseUnit(evt) {

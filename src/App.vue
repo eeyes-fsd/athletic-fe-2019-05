@@ -3,17 +3,15 @@
     <v-toolbar app style="width: 100vw;">
       <v-btn
         flat
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
         class="headline text-uppercase"
+        @click="$router.push({ name: 'home' })"
       >
         <span class="mr-2">首页</span>
       </v-btn>
       <v-spacer />
       <v-btn
         flat
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
+        @click="$router.go(-1)"
       >
         <span class="mr-2">返回</span>
       </v-btn>
