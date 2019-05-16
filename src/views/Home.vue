@@ -19,7 +19,7 @@
           {{ props.item.id }}
         </td>
         <td class="text-xs-right">
-          <router-link :to="{ name: 'game', params: { id: props.item.id }}">
+          <router-link :to="{ name: 'game', params: { id: props.item.id }, query: { groups: props.item.groups }}">
             {{ props.item.name }}
           </router-link>
         </td>
@@ -49,6 +49,7 @@ const units = [
 ]
 
 export default {
+  name: 'Home',
   data() {
     return {
       units,
@@ -70,7 +71,7 @@ export default {
   computed: {
     unitId() {
       const queryUnitId = this.$route.query.unit
-      return queryUnitId ? parseInt(queryUnitId) : null
+      return queryUnitId ? (parseInt(queryUnitId) || null) : null
     }
   },
   mounted() {

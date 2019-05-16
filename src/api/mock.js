@@ -17,7 +17,7 @@ const games = [
 
 const details = [
   {
-    'group': 2,
+    'group': 1,
     'no': 1940,
     'group_rank': 1,
     'name': 'AAA',
