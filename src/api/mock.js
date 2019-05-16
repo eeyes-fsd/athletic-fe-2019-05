@@ -80,7 +80,7 @@ export async function getGameIndex(unit = null) {
   if (unit === null) {
     return games
   } else {
-    return games.map(game => game.id === unit)
+    return games.filter(game => game.id === unit)
   }
 }
 
@@ -93,6 +93,6 @@ export async function getGameDetails(id, group = null) {
   if (group === null) {
     return details
   } else {
-    return details.map(d => d.group === group)
+    return details.filter(d => d.group === group)
   }
 }
