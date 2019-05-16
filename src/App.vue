@@ -1,10 +1,14 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+    <div class="pure-menu pure-menu-horizontal pure-menu-scrollable home-menu">
+      <a href="/" class="pure-menu-link pure-menu-heading">首页</a>
+      <ul class="pure-menu-list">
+        <li class="pure-menu-item">
+          <a href="#" class="pure-menu-link">返回</a>
+        </li>
+      </ul>
     </div>
-    <router-view/>
+    <router-view />
   </div>
 </template>
 
