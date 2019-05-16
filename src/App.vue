@@ -1,33 +1,46 @@
 <template>
-  <div id="app">
-    <div class="pure-menu pure-menu-horizontal pure-menu-scrollable home-menu">
-      <a href="/" class="pure-menu-link pure-menu-heading">首页</a>
-      <ul class="pure-menu-list">
-        <li class="pure-menu-item">
-          <a href="#" class="pure-menu-link">返回</a>
-        </li>
-      </ul>
-    </div>
-    <router-view />
-  </div>
+  <v-app>
+    <v-toolbar app style="width: 100vw;">
+      <v-btn
+        flat
+        href="https://github.com/vuetifyjs/vuetify/releases/latest"
+        target="_blank"
+        class="headline text-uppercase"
+      >
+        <span class="mr-2">首页</span>
+      </v-btn>
+      <v-spacer />
+      <v-btn
+        flat
+        href="https://github.com/vuetifyjs/vuetify/releases/latest"
+        target="_blank"
+      >
+        <span class="mr-2">返回</span>
+      </v-btn>
+    </v-toolbar>
+
+    <v-content>
+      <router-view />
+    </v-content>
+  </v-app>
 </template>
 
-<style lang="scss">
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-#nav {
-  padding: 30px;
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-    &.router-link-exact-active {
-      color: #42b983;
+<script>
+export default {
+  name: 'App',
+  data() {
+    return {
+      //
     }
   }
+}
+</script>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+#app {
+  overflow: hidden;
 }
 </style>
