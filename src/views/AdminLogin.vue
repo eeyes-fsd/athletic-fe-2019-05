@@ -15,6 +15,9 @@
       <v-btn color="info" @click="login">
         登录
       </v-btn>
+      <p class="admin-warning">
+        该页面请使用电脑打开
+      </p>
     </v-container>
   </div>
 </template>

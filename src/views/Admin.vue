@@ -80,6 +80,11 @@
         <p class="admin-warning">
           请确认您知道该配置的具体含义再进行修改
         </p>
+        <v-text-field
+          v-model="shortCode"
+          label="映射表短码"
+          required
+        />
         <v-layout v-for="arg in args" :key="arg.key">
           <v-flex
             xs12
@@ -208,7 +213,13 @@ export default {
       header: [],
       excelData: [],
       openAdvanced: false,
-      uploading: false
+      uploading: false,
+      shortCode: '01234567'
+    }
+  },
+  watch: {
+    shortCode(val) {
+      this.vector = this.covertShortCode(val) || this.vector
     }
   },
   methods: {
@@ -258,6 +269,19 @@ export default {
         result.push(item)
       }
       return result
+    },
+    covertShortCode(code) {
+      if (code.length < 8) return null
+      return {
+        group_rank: parseInt(code.charAt(0)),
+        group: parseInt(code.charAt(1)),
+        no: parseInt(code.charAt(2)),
+        name: parseInt(code.charAt(3)),
+        team: parseInt(code.charAt(4)),
+        track: parseInt(code.charAt(5)),
+        performance: parseInt(code.charAt(6)),
+        remarks: parseInt(code.charAt(7))
+      }
     },
     getColumn(index) {
       const text = this.header[index]
