@@ -28,3 +28,14 @@ export function getGameDetails(id, group = null) {
     }
   })
 }
+
+/**
+ * 上传Excel表格
+ * @param {Array<GameResource>} data Excel数组（处理后）
+ */
+export function uploadGameDetails(data) {
+  return request({
+    url: `/games`,
+    method: 'post'
+  })
+}

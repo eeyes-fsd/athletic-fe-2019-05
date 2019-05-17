@@ -96,3 +96,13 @@ export async function getGameDetails(id, group = null) {
     return details.filter(d => d.group === group)
   }
 }
+
+/**
+ * 上传Excel表格
+ * @param {Array<GameResource>} data Excel数组（处理后）
+ */
+export function uploadGameDetails(data) {
+  return new Promise(r => {
+    setTimeout(r, 2500)
+  })
+}

@@ -20,6 +20,12 @@
     <v-content>
       <router-view />
     </v-content>
+
+    <v-footer>
+      <router-link :to="{ name: 'admin' }">
+        管理端入口
+      </router-link>
+    </v-footer>
   </v-app>
 </template>
 
