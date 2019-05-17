@@ -21,10 +21,11 @@
       <router-view />
     </v-content>
 
-    <v-footer>
+    <v-footer class="app-footer">
       <router-link :to="{ name: 'admin' }">
         管理端入口
       </router-link>
+      <p>Copyright&copy;2002-2018 eeYes.net All Rights Reserved 版权所有 陕ICP备030061号</p>
     </v-footer>
   </v-app>
 </template>
@@ -46,5 +47,11 @@ export default {
 }
 #app {
   overflow: hidden;
+}
+.app-footer {
+  text-align: center;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 </style>

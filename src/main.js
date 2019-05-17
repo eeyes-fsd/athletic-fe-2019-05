@@ -1,3 +1,4 @@
+import './assets/google'
 import 'vuetify/src/stylus/app.styl'
 import Vue from 'vue'
 import router from './router'
