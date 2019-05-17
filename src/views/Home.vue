@@ -93,7 +93,7 @@ export default {
       } else if (unitId === 0) {
         this.fetchGames(null)
       } else {
-        swal('页面错误，请刷新重试')
+        swal('错误', '页面错误，请刷新重试', 'error')
       }
     }
   }

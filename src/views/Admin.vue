@@ -134,15 +134,19 @@ export default {
         },
         {
           key: 'group',
-          description: '组号'
+          description: '小组'
+        },
+        {
+          key: 'no',
+          description: '号码'
         },
         {
           key: 'name',
-          description: '选手姓名'
+          description: '姓名'
         },
         {
           key: 'team',
-          description: '选手单位'
+          description: '单位'
         },
         {
           key: 'track',
@@ -151,10 +155,6 @@ export default {
         {
           key: 'performance',
           description: '成绩'
-        },
-        {
-          key: 'no',
-          description: '参赛选手号'
         },
         {
           key: 'remarks',
@@ -167,15 +167,19 @@ export default {
           value: 'group_rank'
         },
         {
-          text: '组号',
+          text: '小组',
           value: 'group'
         },
         {
-          text: '选手姓名',
+          text: '号码',
+          value: 'no'
+        },
+        {
+          text: '姓名',
           value: 'name'
         },
         {
-          text: '选手单位',
+          text: '单位',
           value: 'team'
         },
         {
@@ -187,10 +191,6 @@ export default {
           value: 'performance'
         },
         {
-          text: '参赛选手号',
-          value: 'no'
-        },
-        {
           text: '备注',
           value: 'remarks'
         }
@@ -198,11 +198,11 @@ export default {
       vector: {
         group_rank: 0,
         group: 1,
-        name: 2,
-        team: 3,
-        track: 4,
-        performance: 5,
-        no: 6,
+        no: 2,
+        name: 3,
+        team: 4,
+        track: 5,
+        performance: 6,
         remarks: 7
       },
       header: [],
@@ -243,7 +243,7 @@ export default {
         this.header = data[0]
         this.excelData = this.parseData(data)
       } catch (error) {
-        swal('发生错误：' + error.message)
+        this.$handleError(error)
       }
     },
     parseData(data) {
@@ -271,7 +271,7 @@ export default {
         this.excelData = []
         swal('成功', '上传成功', 'success')
       } catch (error) {
-        swal('发生错误：' + error.message)
+        this.$handleError(error)
       }
       this.uploading = false
     },

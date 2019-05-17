@@ -123,7 +123,7 @@ export default {
       } else if (groupId === 0) {
         this.fetchDetails(this.gameId, null)
       } else {
-        swal('页面错误，请刷新重试')
+        swal('错误', '页面错误，请刷新重试', 'error')
       }
     }
   }

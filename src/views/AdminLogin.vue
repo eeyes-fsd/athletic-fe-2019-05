@@ -45,16 +45,10 @@ export default {
         } else {
           swal('错误', '密码不正确', 'error')
         }
-        console.log('ok', data)
       } catch (error) {
-        console.log('error', error)
-        swal('错误', '发生错误：' + error.message, 'error')
+        this.$handleError(error)
       }
     }
   }
 }
 </script>
-
-<style>
-
-</style>
