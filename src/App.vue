@@ -18,6 +18,9 @@
     </v-toolbar>
 
     <v-content>
+      <div class="banner">
+        <img src="@/assets/excel.png" alt="banner" class="banner-img">
+      </div>
       <router-view />
     </v-content>
 
@@ -53,5 +56,10 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+.banner-img {
+  height: 120px;
+  width: 100%;
+  object-fit: cover;
 }
 </style>
