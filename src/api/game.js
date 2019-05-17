@@ -39,3 +39,17 @@ export function uploadGameDetails(data) {
     method: 'post'
   })
 }
+
+/**
+ * 登录
+ * @param {String} password 密码
+ */
+export function login(password) {
+  return request({
+    url: `/verify`,
+    method: 'get',
+    headers: {
+      password
+    }
+  })
+}

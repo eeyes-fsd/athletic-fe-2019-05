@@ -22,7 +22,7 @@
     </v-content>
 
     <v-footer class="app-footer">
-      <router-link :to="{ name: 'admin' }">
+      <router-link :to="{ name: 'admin_login' }">
         管理端入口
       </router-link>
       <p>Copyright&copy;2002-2018 eeYes.net All Rights Reserved 版权所有 陕ICP备030061号</p>

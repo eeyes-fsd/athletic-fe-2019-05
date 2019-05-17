@@ -3,6 +3,10 @@
     <v-container>
       <h2>管理端</h2>
 
+      <v-btn color="error" @click="logout">
+        退出
+      </v-btn>
+
       <p class="admin-warning">
         该页面请使用电脑打开
       </p>
@@ -103,6 +107,7 @@
 import api from '@/api'
 import xlsx from 'xlsx'
 import swal from 'sweetalert'
+import { mapMutations } from 'vuex'
 
 function asyncReadFile(file) {
   return new Promise((resolve, reject) => {
@@ -207,6 +212,9 @@ export default {
     }
   },
   methods: {
+    ...mapMutations({
+      savePassword: 'savePassword'
+    }),
     uploadClick() {
       this.$refs.upload.click()
     },
@@ -266,6 +274,9 @@ export default {
         swal('发生错误：' + error.message)
       }
       this.uploading = false
+    },
+    logout() {
+      this.savePassword(null)
     }
   }
 }

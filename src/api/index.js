@@ -1,4 +1,4 @@
-import * as game from '.'
-import * as mock from './mock'
+import * as game from './game'
+// import * as mock from './mock'
 
-export default mock
+export default game

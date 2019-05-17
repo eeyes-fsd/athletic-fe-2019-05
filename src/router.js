@@ -18,7 +18,12 @@ export default new Router({
       component: Game
     },
     {
-      path: '/admin',
+      path: '/admin/login',
+      name: 'admin_login',
+      component: () => import(/* webpackChunkName: "admin-login" */ './views/AdminLogin.vue')
+    },
+    {
+      path: '/admin/manage',
       name: 'admin',
       component: () => import(/* webpackChunkName: "admin" */ './views/Admin.vue')
     }
