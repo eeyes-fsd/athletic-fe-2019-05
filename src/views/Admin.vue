@@ -64,11 +64,22 @@
 
       <hr class="more-margin">
       <p class="admin-warning">
-        当您确定无误以后，点击确定即可开始上传
+        当您确定无误以后，点击确定即可开始上传。请注意上传将会覆盖原单元的内容。
       </p>
-      <v-btn color="success" :loading="uploading" @click="handleUpload">
-        确定
-      </v-btn>
+      <v-layout>
+        <v-flex xs12 sm6 d-flex>
+          <v-select
+            :items="units"
+            label="将要上传到的单元"
+            @input="chooseUnit"
+          />
+        </v-flex>
+        <v-flex xs12 sm6 d-flex>
+          <v-btn color="success" :loading="uploading" @click="handleUpload">
+            确定
+          </v-btn>
+        </v-flex>
+      </v-layout>
 
       <h2>高级</h2>
       <v-switch
@@ -113,6 +124,7 @@ import api from '@/api'
 import xlsx from 'xlsx'
 import swal from 'sweetalert'
 import { mapMutations } from 'vuex'
+import { units } from '@/config'
 
 function asyncReadFile(file) {
   return new Promise((resolve, reject) => {
@@ -132,6 +144,7 @@ export default {
   name: 'Admin',
   data() {
     return {
+      units,
       args: [
         {
           key: 'group_rank',
@@ -214,7 +227,8 @@ export default {
       excelData: [],
       openAdvanced: false,
       uploading: false,
-      shortCode: '01234567'
+      shortCode: '01234567',
+      uploadUnit: -1
     }
   },
   watch: {
@@ -226,21 +240,25 @@ export default {
     ...mapMutations({
       savePassword: 'savePassword'
     }),
+    // 点击Excel上传区
     uploadClick() {
       this.$refs.upload.click()
     },
+    // 通过点击的方式选择文件
     uploadSubmit() {
       const file = this.$refs.upload.files[0]
       if (file) {
         this.uploadHandle(file)
       }
     },
+    // 通过拖拽的方式选择文件
     uploadDrop(evt) {
       const file = evt.dataTransfer.files[0]
       if (file) {
         this.uploadHandle(file)
       }
     },
+    // 选择并读取Excel文件
     async uploadHandle(file) {
       if (!file.name.endsWith('xlsx')) {
         swal('不支持的文件类型，请使用新版本Excel文件（xlsx）格式')
@@ -257,6 +275,7 @@ export default {
         this.$handleError(error)
       }
     },
+    // 解析Excel表格
     parseData(data) {
       const result = []
       for (let i = 1; i < data.length; i++) {
@@ -270,6 +289,7 @@ export default {
       }
       return result
     },
+    // 将短码转换成映射表
     covertShortCode(code) {
       if (code.length < 8) return null
       return {
@@ -283,15 +303,33 @@ export default {
         remarks: parseInt(code.charAt(7))
       }
     },
+    // 显示列名详细信息
     getColumn(index) {
-      const text = this.header[index]
+      const text = this.header[index] || `(${this.headers[index].text})`
       const columnName = String.fromCharCode(65 + index)
       return `列${columnName} ${text}`
     },
+    // 选择要上传的单元
+    chooseUnit(evt) {
+      const unitId = units.indexOf(evt)
+      if (unitId > 0) {
+        this.uploadUnit = unitId
+      } else if (unitId === 0) {
+        this.uploadUnit = -1
+      } else {
+        this.uploadUnit = -1
+        swal('错误', '页面错误，请刷新重试', 'error')
+      }
+    },
+    // 上传Excel数据到服务器
     async handleUpload() {
       this.uploading = true
+      if (this.uploadUnit <= 0) {
+        return swal('错误', '选择的赛事单元不存在', 'error')
+      }
       try {
-        await api.uploadGameDetails(this.excelData)
+        await api.clearGameDetails(this.uploadUnit)
+        await api.uploadGameDetails(this.uploadUnit, this.excelData)
         this.excelData = []
         swal('成功', '上传成功', 'success')
       } catch (error) {
@@ -299,6 +337,7 @@ export default {
       }
       this.uploading = false
     },
+    // 登出
     logout() {
       this.savePassword(null)
     }

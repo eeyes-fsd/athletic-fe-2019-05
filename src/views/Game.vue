@@ -3,7 +3,7 @@
     <v-flex xs12 sm6 d-flex>
       <v-select
         :items="groupList"
-        label="Standard"
+        label="选择小组"
         @input="chooseGroup"
       />
     </v-flex>

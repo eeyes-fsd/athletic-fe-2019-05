@@ -3,7 +3,7 @@
     <v-flex xs12 sm6 d-flex>
       <v-select
         :items="units"
-        label="Standard"
+        label="选择单元"
         @input="chooseUnit"
       />
     </v-flex>
@@ -40,13 +40,7 @@
 <script>
 import api from '@/api'
 import swal from 'sweetalert'
-
-const units = [
-  '全部',
-  '第一单元',
-  '第二单元',
-  '第三单元'
-]
+import { units } from '@/config'
 
 export default {
   name: 'Home',
