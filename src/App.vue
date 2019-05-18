@@ -18,9 +18,9 @@
     </v-toolbar>
 
     <v-content>
-      <div class="banner">
+      <!-- <div class="banner">
         <img src="@/assets/excel.png" alt="banner" class="banner-img">
-      </div>
+      </div> -->
       <router-view />
     </v-content>
 

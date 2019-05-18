@@ -340,6 +340,7 @@ export default {
     // 登出
     logout() {
       this.savePassword(null)
+      this.$router.push({ name: 'admin_login' })
     }
   }
 }

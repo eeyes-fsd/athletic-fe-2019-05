@@ -13,6 +13,7 @@
       :items="games"
       class="elevation-1"
       hide-actions
+      disable-initial-sort
     >
       <template v-slot:items="props">
         <td class="text-xs-right">

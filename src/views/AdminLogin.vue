@@ -11,6 +11,7 @@
         v-model="password"
         label="密码"
         required
+        type="password"
         @keypress.enter="login"
       />
       <v-btn color="info" @click="login">
