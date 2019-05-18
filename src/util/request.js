@@ -29,16 +29,7 @@ _axios.interceptors.request.use(function(config) {
 // Add a response interceptor
 _axios.interceptors.response.use(
   function({ data }) {
-    if (data !== undefined && data) {
-      // 正确响应
-      return data
-    } else {
-      if (data.message) {
-        return Promise.reject(new Error(data.message))
-      }
-      // 状态码200，但是没有message说明后端框架加载失败
-      return Promise.reject(new Error('服务器异常，请检查网络连接'))
-    }
+    return data
   },
   function({ response: { data }}) {
     if (data !== undefined && data) {

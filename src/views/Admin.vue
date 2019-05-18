@@ -36,10 +36,13 @@
       >
         <template v-slot:items="props">
           <td class="text-xs-right">
+            {{ props.item.group }}
+          </td>
+          <td class="text-xs-right">
             {{ props.item.group_rank }}
           </td>
           <td class="text-xs-right">
-            {{ props.item.group }}
+            {{ props.item.no }}
           </td>
           <td class="text-xs-right">
             {{ props.item.name }}
@@ -52,9 +55,6 @@
           </td>
           <td class="text-xs-right">
             {{ props.item.performance }}
-          </td>
-          <td class="text-xs-right">
-            {{ props.item.no }}
           </td>
           <td class="text-xs-right">
             {{ props.item.remarks }}
@@ -75,6 +75,11 @@
       </v-layout>
 
       <h2>高级</h2>
+      <v-text-field
+        v-model="shortCode"
+        label="映射表短码"
+        required
+      />
       <v-switch
         v-model="openAdvanced"
         :label="openAdvanced ? '启用高级设置' : '关闭高级设置'"
@@ -84,11 +89,6 @@
         <p class="admin-warning">
           请确认您知道该配置的具体含义再进行修改
         </p>
-        <v-text-field
-          v-model="shortCode"
-          label="映射表短码"
-          required
-        />
         <v-layout v-for="arg in args" :key="arg.key">
           <v-flex
             xs12
@@ -107,6 +107,7 @@
             对应Excel列：{{ getColumn(vector[arg.key]) }}
           </v-flex>
         </v-layout>
+        <pre>{{ excelData }}</pre>
       </div>
     </v-container>
   </div>
@@ -140,12 +141,12 @@ export default {
       units,
       args: [
         {
-          key: 'group_rank',
-          description: '小组排名'
-        },
-        {
           key: 'group',
           description: '小组'
+        },
+        {
+          key: 'group_rank',
+          description: '小组排名'
         },
         {
           key: 'no',
@@ -174,12 +175,12 @@ export default {
       ],
       headers: [
         {
-          text: '小组排名',
-          value: 'group_rank'
-        },
-        {
           text: '小组',
           value: 'group'
+        },
+        {
+          text: '小组排名',
+          value: 'group_rank'
         },
         {
           text: '号码',
@@ -206,21 +207,11 @@ export default {
           value: 'remarks'
         }
       ],
-      vector: {
-        group_rank: 0,
-        group: 1,
-        no: 2,
-        name: 3,
-        team: 4,
-        track: 5,
-        performance: 6,
-        remarks: 7
-      },
       header: [],
-      excelData: [],
+      rawData: [],
       openAdvanced: false,
       uploading: false,
-      shortCode: '01234567'
+      shortCode: '01234569'
     }
   },
   computed: {
@@ -231,11 +222,12 @@ export default {
     gameId() {
       const queryGameId = this.$route.query.game
       return queryGameId ? (parseInt(queryGameId) || null) : null
-    }
-  },
-  watch: {
-    shortCode(val) {
-      this.vector = this.covertShortCode(val) || this.vector
+    },
+    excelData() {
+      return this.parseData(this.rawData)
+    },
+    vector() {
+      return this.covertShortCode(this.shortCode)
     }
   },
   mounted() {
@@ -278,7 +270,7 @@ export default {
         const firstWorksheet = workbook.Sheets[workbook.SheetNames[0]]
         const data = xlsx.utils.sheet_to_json(firstWorksheet, { header: 1 })
         this.header = data[0]
-        this.excelData = this.parseData(data)
+        this.rawData = data.slice(1)
       } catch (error) {
         this.$handleError(error)
       }
@@ -286,12 +278,12 @@ export default {
     // 解析Excel表格
     parseData(data) {
       const result = []
-      for (let i = 1; i < data.length; i++) {
+      for (let i = 0; i < data.length; i++) {
         const line = data[i]
         const item = { ...this.vector }
         for (const k in this.vector) {
           const index = this.vector[k]
-          item[k] = line[index]
+          item[k] = line[index] || ''
         }
         result.push(item)
       }
@@ -301,8 +293,8 @@ export default {
     covertShortCode(code) {
       if (code.length < 8) return null
       return {
-        group_rank: parseInt(code.charAt(0)),
-        group: parseInt(code.charAt(1)),
+        group: parseInt(code.charAt(0)),
+        group_rank: parseInt(code.charAt(1)),
         no: parseInt(code.charAt(2)),
         name: parseInt(code.charAt(3)),
         team: parseInt(code.charAt(4)),
