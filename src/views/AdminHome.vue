@@ -20,9 +20,7 @@
           {{ props.item.id }}
         </td>
         <td class="text-xs-right">
-          <router-link :to="{ name: 'game', params: { id: props.item.id }, query: { groups: props.item.groups }}">
-            {{ props.item.name }}
-          </router-link>
+          {{ props.item.name }}
         </td>
         <td class="text-xs-right column-begin-at">
           {{ props.item.begin_at }}
@@ -33,6 +31,11 @@
         <td class="text-xs-right">
           {{ props.item.groups }}
         </td>
+        <td class="text-xs-right">
+          <v-btn color="info" @click="handleEdit(props.item)">
+            编辑
+          </v-btn>
+        </td>
       </template>
     </v-data-table>
   </div>
@@ -42,6 +45,7 @@
 import api from '@/api'
 import swal from 'sweetalert'
 import { units } from '@/config'
+import { mapMutations } from 'vuex'
 
 export default {
   name: 'Home',
@@ -58,7 +62,8 @@ export default {
         { text: '项目名称', value: 'name' },
         { text: '比赛时间', class: 'column-begin-at', value: 'begin_at' },
         { text: '人数', value: 'participants' },
-        { text: '组数', value: 'groups' }
+        { text: '组数', value: 'groups' },
+        { text: '操作', value: 'operate' }
       ],
       games: []
     }
@@ -73,6 +78,9 @@ export default {
     this.fetchGames(this.unitId)
   },
   methods: {
+    ...mapMutations({
+      setAdminEditGame: 'setAdminEditGame'
+    }),
     async fetchGames(unitId = null) {
       try {
         this.games = await api.getGameIndex(unitId)
@@ -80,9 +88,9 @@ export default {
         this.$handleError(error)
       }
       if (unitId === null) {
-        this.$router.push({ name: 'home' })
+        this.$router.push({ name: 'admin_index' })
       } else {
-        this.$router.push({ name: 'home', query: { unit: unitId.toString() }})
+        this.$router.push({ name: 'admin_index', query: { unit: unitId.toString() }})
       }
     },
     chooseUnit(evt) {
@@ -94,6 +102,13 @@ export default {
       } else {
         swal('错误', '页面错误，请刷新重试', 'error')
       }
+    },
+    handleEdit(item) {
+      this.setAdminEditGame(item)
+      const query = {
+        game: item.id.toString()
+      }
+      this.$router.push({ name: 'admin', query })
     }
   }
 }

@@ -42,12 +42,12 @@ _axios.interceptors.response.use(
   },
   function({ response: { data }}) {
     if (data !== undefined && data) {
-      // 正确响应
-      return data
-    } else {
       if (data.message) {
         return Promise.reject(new Error(data.message))
+      } else {
+        return Promise.reject(new Error('服务器异常，严重错误'))
       }
+    } else {
       // 状态码200，但是没有message说明后端框架加载失败
       return Promise.reject(new Error('服务器异常，请检查网络连接'))
     }

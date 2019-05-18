@@ -103,7 +103,11 @@ export default {
   },
   methods: {
     async fetchDetails(gameId, groupId = null) {
-      this.details = await api.getGameDetails(gameId, groupId)
+      try {
+        this.details = await api.getGameDetails(gameId, groupId)
+      } catch (error) {
+        this.$handleError(error)
+      }
       const params = {
         id: gameId.toString()
       }

@@ -43,12 +43,14 @@ export default {
     async login() {
       try {
         const data = await api.login(this.password)
-        if (data.status) {
+        if (data.status === true) {
           this.savePassword(this.password)
           await swal('成功', '登录成功，点击确定跳转', 'success')
-          this.$router.push({ name: 'admin' })
-        } else {
+          this.$router.push({ name: 'admin_index' })
+        } else if (data.status === false) {
           swal('错误', '密码不正确', 'error')
+        } else {
+          swal('错误', '服务器错误，请重试', 'error')
         }
       } catch (error) {
         this.$handleError(error)

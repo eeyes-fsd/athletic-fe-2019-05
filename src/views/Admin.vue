@@ -64,16 +64,9 @@
 
       <hr class="more-margin">
       <p class="admin-warning">
-        当您确定无误以后，点击确定即可开始上传。请注意上传将会覆盖原单元的内容。
+        您正在编辑 <b style="color: red;">{{ gameName }}</b> 当您确定无误以后，点击确定即可开始上传。请注意上传将会覆盖原单元的内容。
       </p>
       <v-layout>
-        <v-flex xs12 sm6 d-flex>
-          <v-select
-            :items="units"
-            label="将要上传到的单元"
-            @input="chooseUnit"
-          />
-        </v-flex>
         <v-flex xs12 sm6 d-flex>
           <v-btn color="success" :loading="uploading" @click="handleUpload">
             确定
@@ -227,13 +220,28 @@ export default {
       excelData: [],
       openAdvanced: false,
       uploading: false,
-      shortCode: '01234567',
-      uploadUnit: -1
+      shortCode: '01234567'
+    }
+  },
+  computed: {
+    gameName() {
+      const game = this.$store.state.admin_edit_game
+      return game ? game.name : '<未知赛事，程序错误请返回重试>'
+    },
+    gameId() {
+      const queryGameId = this.$route.query.game
+      return queryGameId ? (parseInt(queryGameId) || null) : null
     }
   },
   watch: {
     shortCode(val) {
       this.vector = this.covertShortCode(val) || this.vector
+    }
+  },
+  mounted() {
+    if (this.gameId === null) {
+      this.$router.push({ name: 'admin_index' })
+      swal('提示', '发生错误，未知的上传赛事，请重新选择赛事', 'error')
     }
   },
   methods: {
@@ -309,29 +317,18 @@ export default {
       const columnName = String.fromCharCode(65 + index)
       return `列${columnName} ${text}`
     },
-    // 选择要上传的单元
-    chooseUnit(evt) {
-      const unitId = units.indexOf(evt)
-      if (unitId > 0) {
-        this.uploadUnit = unitId
-      } else if (unitId === 0) {
-        this.uploadUnit = -1
-      } else {
-        this.uploadUnit = -1
-        swal('错误', '页面错误，请刷新重试', 'error')
-      }
-    },
     // 上传Excel数据到服务器
     async handleUpload() {
       this.uploading = true
-      if (this.uploadUnit <= 0) {
-        return swal('错误', '选择的赛事单元不存在', 'error')
+      if (this.gameId <= 0) {
+        return swal('错误', '选择的赛事不存在', 'error')
       }
       try {
-        await api.clearGameDetails(this.uploadUnit)
-        await api.uploadGameDetails(this.uploadUnit, this.excelData)
+        await api.clearGameDetails(this.gameId)
+        await api.uploadGameDetails(this.gameId, this.excelData)
         this.excelData = []
-        swal('成功', '上传成功', 'success')
+        await swal('成功', '上传成功', 'success')
+        this.$router.push({ name: 'admin_index' })
       } catch (error) {
         this.$handleError(error)
       }

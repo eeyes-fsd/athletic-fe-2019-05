@@ -31,23 +31,23 @@ export function getGameDetails(id, group = null) {
 
 /**
  * 删除某场赛事下所有信息
- * @param {Number} unitId 所属的赛事单元（赛事ID）
+ * @param {Number} gameId 所属的赛事赛事ID
  */
-export function clearGameDetails(unitId) {
+export function clearGameDetails(gameId) {
   return request({
-    url: `/games/${unitId}`,
+    url: `/games/${gameId}`,
     method: 'delete'
   })
 }
 
 /**
  * 上传Excel表格
- * @param {Number} unitId 所属的赛事单元（赛事ID）
+ * @param {Number} gameId 所属的赛事赛事ID
  * @param {Array<GameResource>} data Excel数组（处理后）
  */
-export function uploadGameDetails(unitId, data) {
+export function uploadGameDetails(gameId, data) {
   return request({
-    url: `/games/${unitId}`,
+    url: `/games/${gameId}`,
     method: 'put',
     data
   })

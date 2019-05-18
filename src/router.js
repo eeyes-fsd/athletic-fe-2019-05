@@ -23,9 +23,14 @@ export default new Router({
       component: () => import(/* webpackChunkName: "admin-login" */ './views/AdminLogin.vue')
     },
     {
-      path: '/admin/manage',
+      path: '/admin/index',
+      name: 'admin_index',
+      component: () => import(/* webpackChunkName: "admin-home" */ './views/AdminHome.vue')
+    },
+    {
+      path: '/admin/upload',
       name: 'admin',
-      component: () => import(/* webpackChunkName: "admin" */ './views/Admin.vue')
+      component: () => import(/* webpackChunkName: "admin-upload" */ './views/Admin.vue')
     }
   ]
 })
